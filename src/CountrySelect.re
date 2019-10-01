@@ -49,7 +49,7 @@ let make =
     None;
   });
 
-  React.useEffect2(
+  useEffect2(
     () => {
       SelectCountry(getSelectedCountry(country, state.options)) |> dispatcher;
       None;
