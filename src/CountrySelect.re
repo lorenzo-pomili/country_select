@@ -99,7 +99,10 @@ let make =
             label=props##label
             value=props##value
             innerRef=props##innerRef>
-            {props##data.label |> s}
+            <>
+              <Flag nationCode={props##data.value} />
+              {props##data.label |> s}
+            </>
           </ReactSelect.Option>
         </div>
       }

@@ -11,6 +11,24 @@ module.exports = {
     path: outputDir,
     filename: 'Index.js'
   },
+  resolve: {
+    alias: {
+      "src": path.resolve(__dirname, './src'),
+      "node_modules": path.resolve(__dirname, './node_modules')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
+        loader: 'url-loader'
+      }
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
