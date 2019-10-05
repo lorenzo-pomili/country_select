@@ -7,13 +7,12 @@ let make =
       ~selectedToJs,
       ~onChange,
       ~elementOfOption,
+      ~placeholder=?,
       ~indicatorSeparator=?,
       ~dropdownIndicator=?,
       ~menuIsOpen=?,
       ~filterOption,
     ) => {
-  Js.log2("selectedOption: ", selectedOption);
-
   <div>
     <ReactSelect
       className
@@ -21,6 +20,7 @@ let make =
       value={Js.Nullable.fromOption(selectedToJs(selectedOption))}
       menuIsOpen={menuIsOpen->Belt.Option.getWithDefault(false)}
       onChange
+      placeholder={Js.Nullable.fromOption(placeholder)}
       components={
         "Option": elementOfOption,
         "IndicatorSeparator": indicatorSeparator,

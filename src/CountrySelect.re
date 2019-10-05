@@ -55,7 +55,6 @@ let make =
   useEffect2(
     () => {
       let selected = getSelectedCountry(country, state.options);
-      Js.log2("selected: ", selected);
       SelectCountry(selected) |> dispatcher;
       None;
     },
@@ -71,6 +70,7 @@ let make =
         | Some(c) => Some({"value": c.value, "label": c.label})
         }
       }
+      placeholder={<span> <SearchIcon /> {"Search" |> s} </span>}
       options={state.options}
       menuIsOpen=true
       filterOption={(o, s) => optionFilter(o##data, s)}

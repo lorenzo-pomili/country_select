@@ -72,6 +72,7 @@ external make:
     ~value: Js.Nullable.t('jsOption),
     ~menuIsOpen: bool=?,
     ~onChange: 'option => unit=?,
+    ~placeholder: 'placeholder=?,
     ~components: 'components=?,
     ~filterOption: 'filterOption=?
   ) =>
