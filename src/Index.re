@@ -1,7 +1,7 @@
 ReactDOMRe.renderToElementWithId(
   <CountrySelect
     className="custom-class"
-    country={Some("us")}
+    country=None
     onChange={country => Js.log(country)}
   />,
   "countrySelect",

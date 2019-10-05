@@ -1,19 +1,32 @@
-open ReactUtils;
 [@react.component]
-let make = (~className, ~options, ~selectedOption, ~onChange, ~stringOfOption) =>
+let make =
+    (
+      ~className,
+      ~options,
+      ~selectedOption,
+      ~selectedToJs,
+      ~onChange,
+      ~elementOfOption,
+      ~indicatorSeparator=?,
+      ~dropdownIndicator=?,
+      ~menuIsOpen=?,
+      ~filterOption,
+    ) => {
+  Js.log2("selectedOption: ", selectedOption);
+
   <div>
-    {options
-     ->Belt.Array.mapWithIndex((i, op) =>
-         <div key={string_of_int(i)}>
-           {switch (selectedOption) {
-            | Some(c) when c == op => <span> {s("=>")} </span>
-            | None
-            | Some(_) => React.null
-            }}
-           <span onClick={_e => onChange(op)}>
-             {s(stringOfOption(op))}
-           </span>
-         </div>
-       )
-     ->React.array}
+    <ReactSelect
+      className
+      options
+      value={Js.Nullable.fromOption(selectedToJs(selectedOption))}
+      menuIsOpen={menuIsOpen->Belt.Option.getWithDefault(false)}
+      onChange
+      components={
+        "Option": elementOfOption,
+        "IndicatorSeparator": indicatorSeparator,
+        "DropdownIndicator": dropdownIndicator,
+      }
+      filterOption
+    />
   </div>;
+};

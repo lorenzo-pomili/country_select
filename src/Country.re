@@ -13,3 +13,11 @@ let jsonDecoder = json =>
 
 let jsonArrayDecoder = (arrayJson: Js.Json.t): array(t) =>
   arrayJson |> Json.Decode.array(jsonDecoder);
+
+let jsonEncode = r =>
+  Json.Encode.(
+    object_([("value", r.value |> string), ("label", r.label |> string)])
+  );
+
+let jsonArrayEconder = (arrayRecords: array(t)) =>
+  arrayRecords |> Json.Encode.array(jsonEncode);
