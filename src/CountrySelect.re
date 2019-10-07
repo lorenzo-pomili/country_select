@@ -133,6 +133,7 @@ let make =
                </ReactSelect.Option>
              </div>
            }
+           input={props => <SearchInput props />}
            onChange={c => {
              dispatcher(SelectCountry(Some(c)));
              onChange(c);

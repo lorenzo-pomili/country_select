@@ -1,5 +1,3 @@
-// [@bs.as "type"] ~_type: '_type=?,
-
 module Option = {
   [@bs.module "react-select"]
   [@bs.scope "components"]
@@ -32,6 +30,40 @@ module Option = {
     React.element =
     "Option";
 };
+
+module Input = {
+  [@bs.module "react-select"]
+  [@bs.scope "components"]
+  [@bs.val]
+  [@react.component]
+  external make:
+    (
+      ~autoCapitalize: 'autoCapitalize=?,
+      ~autoComplete: 'autoComplete=?,
+      ~autoCorrect: 'autoCorrect=?,
+      ~cx: 'cx=?,
+      ~getStyles: 'getStyles=?,
+      ~id: 'id=?,
+      ~innerRef: 'innerRef=?,
+      ~isDisabled: 'isDisabled=?,
+      ~isHidden: 'isHidden=?,
+      ~onBlur: 'onBlur=?,
+      ~onChange: 'onChange=?,
+      ~onFocus: 'onFocus=?,
+      ~selectProps: 'selectProps=?,
+      ~spellCheck: 'spellCheck=?,
+      ~tabIndex: 'tabIndex=?,
+      ~theme: 'theme=?,
+      ~value: 'value=?,
+      ~type_: 'type_=?,
+      ~ariaAutocomplete: 'ariaAutocomplete=?,
+      ~ariaLabel: 'ariaLabel=?,
+      ~ariaLabelledby: 'ariaLabelledby=?
+    ) =>
+    React.element =
+    "Input";
+};
+
 module Control = {
   [@bs.module "react-select"]
   [@bs.scope "components"]

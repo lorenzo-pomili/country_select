@@ -10,6 +10,7 @@ let make =
       ~placeholder=?,
       ~indicatorSeparator=?,
       ~dropdownIndicator=?,
+      ~input=?,
       ~menuIsOpen=?,
       ~filterOption,
     ) => {
@@ -25,6 +26,7 @@ let make =
         "Option": elementOfOption,
         "IndicatorSeparator": indicatorSeparator,
         "DropdownIndicator": dropdownIndicator,
+        "Input": input,
       }
       filterOption
     />
