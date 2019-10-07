@@ -16,11 +16,7 @@ let make = (~props) => {
         isHidden=props##isHidden
         onBlur=props##onBlur
         onChange=props##onChange
-        onFocus={e => {
-          Js.log(e);
-          Js.log(props##onFocus);
-          props##onFocus;
-        }}
+        onFocus=props##onFocus
         selectProps=props##selectProps
         spellCheck=props##spellCheck
         tabIndex=props##tabIndex
