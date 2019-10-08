@@ -3,7 +3,6 @@ open ReactUtils;
 
 let style =
   ReactDOMRe.Style.make(
-    ~display="block",
     ~width="50%",
     ~height="25px",
     ~backgroundColor="#FFFFFF",
@@ -14,23 +13,43 @@ let style =
   );
 
 let styleIcoContainer =
-  ReactDOMRe.Style.make(~width="20px", ~float="right", ~paddingTop="3px", ());
+  ReactDOMRe.Style.make(
+    ~paddingRight="3%",
+    ~width="17%",
+    ~float="right",
+    ~paddingTop="3px",
+    (),
+  );
 
-let labelStyle = ReactDOMRe.Style.make(~overflow="hidden", ());
+let labelContainerStyle =
+  ReactDOMRe.Style.make(
+    ~paddingTop="3px",
+    ~paddingLeft="3%",
+    ~float="left",
+    ~overflow="hidden",
+    ~width="77%",
+    ~whiteSpace="nowrap",
+    ~textOverflow="ellipsis",
+    ~margin="0",
+    ~background="white",
+    (),
+  );
 
 [@react.component]
 let make = (~selectedCountry, ~searchIsOpen, ~onClick, ~isLoading) =>
   <div style onClick>
+    <div style=labelContainerStyle>
+      <span>
+        {(
+           switch (selectedCountry) {
+           | None => ""
+           | Some(c) => c.label
+           }
+         )
+         |> s}
+      </span>
+    </div>
     <div style=styleIcoContainer>
       {isLoading ? <Loading /> : <ActivatorIcon active=searchIsOpen />}
     </div>
-    <span style=labelStyle>
-      {(
-         switch (selectedCountry) {
-         | None => ""
-         | Some(c) => c.label
-         }
-       )
-       |> s}
-    </span>
   </div>;

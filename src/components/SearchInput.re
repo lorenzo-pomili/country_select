@@ -1,5 +1,5 @@
 [@react.component]
-let make = (~props) => {
+let make = (~props) =>
   <ReactSelect.Input
     autoCapitalize=props##autoCapitalize
     autoComplete=props##autoComplete
@@ -20,4 +20,3 @@ let make = (~props) => {
     value=props##value
     type_=props##"type"
   />;
-};

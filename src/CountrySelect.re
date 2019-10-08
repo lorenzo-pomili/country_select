@@ -103,32 +103,39 @@ let make =
       onClick={_ => state.isLoading ? () : dispatcher(ToggleSearchIsOpen)}
       selectedCountry={state.selectedCountry}
     />
-    {state.searchIsOpen
-       ? <CustomSelect
-           className
-           selectedOption={state.selectedCountry}
-           selectedToJs={sC =>
-             switch (sC) {
-             | None => None
-             | Some(c) => Some({"value": c.value, "label": c.label})
+    <div
+      style={ReactDOMRe.Style.make(
+        ~width="100%",
+        ~display="inline-block",
+        (),
+      )}>
+      {state.searchIsOpen
+         ? <CustomSelect
+             className
+             selectedOption={state.selectedCountry}
+             selectedToJs={sC =>
+               switch (sC) {
+               | None => None
+               | Some(c) => Some({"value": c.value, "label": c.label})
+               }
              }
-           }
-           placeholder={<span> <SearchIcon /> {"Search" |> s} </span>}
-           options={state.options}
-           menuIsOpen=true
-           isClearable=true
-           isSearchable=true
-           filterOption={(o, s) => shouldShow(state.options, s, o##data)}
-           indicatorSeparator={_ => React.null}
-           dropdownIndicator={_ => React.null}
-           elementOfOption={props => <SingleOption props />}
-           input={props => <SearchInput props />}
-           onChange={c => {
-             let optC = Js.Nullable.toOption(c);
-             dispatcher(SelectCountry(optC));
-             onChange(optC);
-           }}
-         />
-       : React.null}
+             placeholder={<span> <SearchIcon /> {"Search" |> s} </span>}
+             options={state.options}
+             menuIsOpen=true
+             isClearable=true
+             isSearchable=true
+             filterOption={(o, s) => shouldShow(state.options, s, o##data)}
+             indicatorSeparator={_ => React.null}
+             dropdownIndicator={_ => React.null}
+             elementOfOption={props => <SingleOption props />}
+             input={props => <SearchInput props />}
+             onChange={c => {
+               let optC = Js.Nullable.toOption(c);
+               dispatcher(SelectCountry(optC));
+               onChange(optC);
+             }}
+           />
+         : React.null}
+    </div>
   </div>;
 };
