@@ -11,8 +11,10 @@ let make =
       ~indicatorSeparator=?,
       ~dropdownIndicator=?,
       ~input=?,
+      ~isClearable,
+      ~isSearchable,
       ~menuIsOpen=?,
-      ~filterOption,
+      ~filterOption=?,
     ) => {
   <div>
     <ReactSelect
@@ -21,6 +23,8 @@ let make =
       value={Js.Nullable.fromOption(selectedToJs(selectedOption))}
       menuIsOpen={menuIsOpen->Belt.Option.getWithDefault(false)}
       onChange
+      isClearable
+      isSearchable
       placeholder={Js.Nullable.fromOption(placeholder)}
       components={
         "Option": elementOfOption,

@@ -6,6 +6,7 @@
 open Country;
 open React;
 open ReactUtils;
+open Belt;
 
 let containerSytle = ReactDOMRe.Style.make(~width="250px", ());
 
@@ -13,6 +14,7 @@ let url = "https://gist.githubusercontent.com/rusty-key/659db3f4566df459bd59c8a5
 
 type state = {
   options: array(t),
+  filteredOptions: array(t),
   selectedCountry: option(t),
   searchIsOpen: bool,
   isLoading: bool,
@@ -22,34 +24,47 @@ type action =
   | SetLoading(bool)
   | ToggleSearchIsOpen
   | SelectCountry(option(t))
+  | SetFilteredOptions(array(t))
   | SetOptions(array(t));
 
 let getSelectedCountry = (c, arr: array(t)) =>
   switch (c) {
   | None => None
-  | Some(value) => Belt.Array.getBy(arr, e => e.value === value)
+  | Some(value) => Array.getBy(arr, e => e.value === value)
   };
 
-let optionFilter = (option, searchString) =>
+let optionFilter = (searchString, option) =>
   Js.String.includes(
     Js.String.toLowerCase(searchString),
     Js.String.toLowerCase(option.label),
-  );
+  )
+  && searchString !== "";
+
+let shouldShow = (options, searchString, option) => {
+  let filteredOptions = options->Array.keep(optionFilter(searchString));
+  filteredOptions->Array.some(o => o.value === option.value);
+};
 
 [@react.component]
 let make =
-    (~className: string, ~country: option(countryId), ~onChange: t => unit) => {
+    (
+      ~className: string,
+      ~country: option(countryId),
+      ~onChange: option(t) => unit,
+    ) => {
   let (state, dispatcher) =
     useReducer(
       (state, action) =>
         switch (action) {
         | SetLoading(v) => {...state, isLoading: v}
+        | SetFilteredOptions(filteredOptions) => {...state, filteredOptions}
         | SetOptions(options) => {...state, options}
         | SelectCountry(country) => {...state, selectedCountry: country}
         | ToggleSearchIsOpen => {...state, searchIsOpen: !state.searchIsOpen}
         },
       {
         options: [||],
+        filteredOptions: [||],
         selectedCountry: None,
         searchIsOpen: false,
         isLoading: false,
@@ -80,6 +95,7 @@ let make =
     },
     (country, state.options),
   );
+
   <div style=containerSytle>
     <SelectActivator
       isLoading={state.isLoading}
@@ -100,14 +116,17 @@ let make =
            placeholder={<span> <SearchIcon /> {"Search" |> s} </span>}
            options={state.options}
            menuIsOpen=true
-           filterOption={(o, s) => optionFilter(o##data, s)}
+           isClearable=true
+           isSearchable=true
+           filterOption={(o, s) => shouldShow(state.options, s, o##data)}
            indicatorSeparator={_ => React.null}
            dropdownIndicator={_ => React.null}
            elementOfOption={props => <SingleOption props />}
            input={props => <SearchInput props />}
            onChange={c => {
-             dispatcher(SelectCountry(Some(c)));
-             onChange(c);
+             let optC = Js.Nullable.toOption(c);
+             dispatcher(SelectCountry(optC));
+             onChange(optC);
            }}
          />
        : React.null}

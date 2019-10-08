@@ -102,8 +102,11 @@ external make:
     ~className: string=?,
     ~options: array('option)=?,
     ~value: Js.Nullable.t('jsOption),
+    ~isSearchable: bool=?,
+    ~isClearable: bool=?,
+    ~clearValue: 'clearValue=?,
     ~menuIsOpen: bool=?,
-    ~onChange: 'option => unit=?,
+    ~onChange: Js.Nullable.t('option) => unit=?,
     ~placeholder: 'placeholder=?,
     ~components: 'components=?,
     ~filterOption: 'filterOption=?
