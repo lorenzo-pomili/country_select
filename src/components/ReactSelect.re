@@ -101,7 +101,7 @@ external make:
   (
     ~className: string=?,
     ~options: array('option)=?,
-    ~value: Js.Nullable.t('jsOption),
+    ~value: Js.Nullable.t('jsOption)=?,
     ~isSearchable: bool=?,
     ~isClearable: bool=?,
     ~clearValue: 'clearValue=?,

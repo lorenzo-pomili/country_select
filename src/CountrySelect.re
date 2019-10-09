@@ -5,7 +5,6 @@
 // />
 open Country;
 open React;
-open ReactUtils;
 open Belt;
 
 let containerSytle = ReactDOMRe.Style.make(~width="250px", ());
@@ -14,7 +13,6 @@ let url = "https://gist.githubusercontent.com/rusty-key/659db3f4566df459bd59c8a5
 
 type state = {
   options: array(t),
-  filteredOptions: array(t),
   selectedCountry: option(t),
   searchIsOpen: bool,
   isLoading: bool,
@@ -24,7 +22,6 @@ type action =
   | SetLoading(bool)
   | ToggleSearchIsOpen
   | SelectCountry(option(t))
-  | SetFilteredOptions(array(t))
   | SetOptions(array(t));
 
 let getSelectedCountry = (c, arr: array(t)) =>
@@ -32,18 +29,6 @@ let getSelectedCountry = (c, arr: array(t)) =>
   | None => None
   | Some(value) => Array.getBy(arr, e => e.value === value)
   };
-
-let optionFilter = (searchString, option) =>
-  Js.String.includes(
-    Js.String.toLowerCase(searchString),
-    Js.String.toLowerCase(option.label),
-  )
-  && searchString !== "";
-
-let shouldShow = (options, searchString, option) => {
-  let filteredOptions = options->Array.keep(optionFilter(searchString));
-  filteredOptions->Array.some(o => o.value === option.value);
-};
 
 [@react.component]
 let make =
@@ -57,14 +42,12 @@ let make =
       (state, action) =>
         switch (action) {
         | SetLoading(v) => {...state, isLoading: v}
-        | SetFilteredOptions(filteredOptions) => {...state, filteredOptions}
         | SetOptions(options) => {...state, options}
         | SelectCountry(country) => {...state, selectedCountry: country}
         | ToggleSearchIsOpen => {...state, searchIsOpen: !state.searchIsOpen}
         },
       {
         options: [||],
-        filteredOptions: [||],
         selectedCountry: None,
         searchIsOpen: false,
         isLoading: false,
@@ -96,7 +79,7 @@ let make =
     (country, state.options),
   );
 
-  <div style=containerSytle>
+  <div className style=containerSytle>
     <SelectActivator
       isLoading={state.isLoading}
       searchIsOpen={state.searchIsOpen}
@@ -110,25 +93,9 @@ let make =
         (),
       )}>
       {state.searchIsOpen
-         ? <CustomSelect
-             className
-             selectedOption={state.selectedCountry}
-             selectedToJs={sC =>
-               switch (sC) {
-               | None => None
-               | Some(c) => Some({"value": c.value, "label": c.label})
-               }
-             }
-             placeholder={<span> <SearchIcon /> {"Search" |> s} </span>}
+         ? <SearchAndOptions
              options={state.options}
-             menuIsOpen=true
-             isClearable=true
-             isSearchable=true
-             filterOption={(o, s) => shouldShow(state.options, s, o##data)}
-             indicatorSeparator={_ => React.null}
-             dropdownIndicator={_ => React.null}
-             elementOfOption={props => <SingleOption props />}
-             input={props => <SearchInput props />}
+             selectedCountry={state.selectedCountry}
              onChange={c => {
                let optC = Js.Nullable.toOption(c);
                dispatcher(SelectCountry(optC));
