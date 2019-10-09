@@ -17,7 +17,9 @@
   "bs-dependencies": [
     "reason-react",
     "@glennsl/bs-json",
-    "bs-fetch"
+    "@glennsl/bs-jest",
+    "bs-fetch",
+    "bs-enzyme"
   ],
   "refmt": 3
 }
