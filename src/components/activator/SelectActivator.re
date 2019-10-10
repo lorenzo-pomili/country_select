@@ -36,8 +36,16 @@ let labelContainerStyle =
   );
 
 [@react.component]
-let make = (~selectedCountry, ~searchIsOpen, ~onClick, ~isLoading) =>
-  <div style onClick>
+let make =
+    (
+      ~selectedCountry,
+      ~searchIsOpen,
+      ~onClick,
+      ~isLoading,
+      ~tabIndex,
+      ~selectActivatorRef,
+    ) =>
+  <div style onClick tabIndex ref=selectActivatorRef>
     <div style=labelContainerStyle>
       <span>
         {(

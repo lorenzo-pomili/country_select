@@ -6,6 +6,7 @@
 open Country;
 open React;
 open Belt;
+open ReactUtils;
 
 let containerSytle = ReactDOMRe.Style.make(~width="250px", ());
 
@@ -20,7 +21,7 @@ type state = {
 
 type action =
   | SetLoading(bool)
-  | ToggleSearchIsOpen
+  | SetSearchIsOpen(bool)
   | SelectCountry(option(t))
   | SetOptions(array(t));
 
@@ -30,6 +31,25 @@ let getSelectedCountry = (c, arr: array(t)) =>
   | Some(value) => Array.getBy(arr, e => e.value === value)
   };
 
+let focusContainer =
+  fun
+  | None => ()
+  | Some(c) => ReactDOMRe.domElementToObj(c)##focus();
+
+let onKeyMove = (event, searchIsOpen, dispatcher, containerRef) => {
+  let key = event |> keyOfEvent;
+  let container = React.Ref.current(containerRef) |> Js.Nullable.toOption;
+
+  switch (key) {
+  | "ArrowDown" when searchIsOpen === false =>
+    SetSearchIsOpen(true) |> dispatcher
+  | "Escape" when searchIsOpen === true =>
+    SetSearchIsOpen(false) |> dispatcher;
+    focusContainer(container);
+  | _ => ()
+  };
+};
+
 [@react.component]
 let make =
     (
@@ -37,6 +57,7 @@ let make =
       ~country: option(countryId),
       ~onChange: option(t) => unit,
     ) => {
+  let containerRef = React.useRef(Js.Nullable.null);
   let (state, dispatcher) =
     useReducer(
       (state, action) =>
@@ -44,7 +65,7 @@ let make =
         | SetLoading(v) => {...state, isLoading: v}
         | SetOptions(options) => {...state, options}
         | SelectCountry(country) => {...state, selectedCountry: country}
-        | ToggleSearchIsOpen => {...state, searchIsOpen: !state.searchIsOpen}
+        | SetSearchIsOpen(searchIsOpen) => {...state, searchIsOpen}
         },
       {
         options: [||],
@@ -79,11 +100,21 @@ let make =
     (country, state.options),
   );
 
-  <div className style=containerSytle>
+  <div
+    className
+    style=containerSytle
+    onKeyDown={e =>
+      onKeyMove(e, state.searchIsOpen, dispatcher, containerRef)
+    }>
     <SelectActivator
+      selectActivatorRef={ReactDOMRe.Ref.domRef(containerRef)}
+      tabIndex=0
       isLoading={state.isLoading}
       searchIsOpen={state.searchIsOpen}
-      onClick={_ => state.isLoading ? () : dispatcher(ToggleSearchIsOpen)}
+      onClick={_ =>
+        state.isLoading
+          ? () : dispatcher(SetSearchIsOpen(!state.searchIsOpen))
+      }
       selectedCountry={state.selectedCountry}
     />
     <div
