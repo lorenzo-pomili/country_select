@@ -31,6 +31,31 @@ module Option = {
     "Option";
 };
 
+module NoOptionsMessage = {
+  [@bs.module "react-select"]
+  [@bs.scope "components"]
+  [@bs.val]
+  [@react.component]
+  external make:
+    (
+      ~cx: 'cx=?,
+      ~clearValue: 'clearValue=?,
+      ~getStyles: 'getStyles=?,
+      ~getValue: 'getValue=?,
+      ~hasValue: 'hasValue=?,
+      ~isMulti: 'isMulti=?,
+      ~isRtl: 'isRtl=?,
+      ~options: 'options=?,
+      ~selectOption: 'selectOption=?,
+      ~setValue: 'setValue=?,
+      ~selectProps: 'selectProps=?,
+      ~theme: 'theme=?,
+      ~children: React.element=?
+    ) =>
+    React.element =
+    "NoOptionsMessage";
+};
+
 module Input = {
   [@bs.module "react-select"]
   [@bs.scope "components"]

@@ -20,8 +20,10 @@ let selectedToJs = sC =>
   | Some(c) => Some({"value": c.value, "label": c.label})
   };
 
+let isSearching = ref(false);
+
 [@react.component]
-let make = (~options, ~selectedCountry, ~onChange) =>
+let make = (~options, ~selectedCountry, ~onChange) => {
   <ReactSelect
     options
     value={Js.Nullable.fromOption(selectedToJs(selectedCountry))}
@@ -36,6 +38,18 @@ let make = (~options, ~selectedCountry, ~onChange) =>
       "DropdownIndicator": _ => React.null,
       "Menu": props => <Menu props />,
       "Input": props => <SearchInput props />,
+      "NoOptionsMessage": props =>
+        ! isSearching^
+          ? <NoOptionsMessage props>
+              {{options |> Array.length |> Belt.Int.toString}
+               ++ " countries available"
+               |> s}
+            </NoOptionsMessage>
+          : <NoOptionsMessage props> {"No Countries" |> s} </NoOptionsMessage>,
     }
-    filterOption={(o, s) => shouldShow(options, s, o##data)}
+    filterOption={(o, s) => {
+      s === "" ? isSearching := false : isSearching := true;
+      shouldShow(options, s, o##data);
+    }}
   />;
+};
