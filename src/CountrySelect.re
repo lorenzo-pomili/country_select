@@ -86,6 +86,13 @@ let make =
            }
            |> resolve
          )
+      |> catch(_err =>
+           {
+             dispatcher(SetLoading(false));
+             dispatcher(SetOptions([||]));
+           }
+           |> resolve
+         )
       |> ignore
     );
     None;
