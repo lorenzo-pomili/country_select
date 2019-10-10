@@ -34,6 +34,7 @@ let make = (~options, ~selectedCountry, ~onChange) =>
       "Option": props => <SingleOption props />,
       "IndicatorSeparator": _ => React.null,
       "DropdownIndicator": _ => React.null,
+      "Menu": props => <Menu props />,
       "Input": props => <SearchInput props />,
     }
     filterOption={(o, s) => shouldShow(options, s, o##data)}

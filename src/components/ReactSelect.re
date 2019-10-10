@@ -64,20 +64,38 @@ module Input = {
     "Input";
 };
 
-module Control = {
+module Menu = {
   [@bs.module "react-select"]
   [@bs.scope "components"]
   [@bs.val]
   [@react.component]
   external make:
     (
-      ~cx: 'cx,
-      ~theme: 'theme,
-      ~getStyles: 'getStyles,
+      ~cx: 'cx=?,
+      ~clearValue: 'clearValue=?,
+      ~getStyles: 'getStyles=?,
+      ~getValue: 'getValue=?,
+      ~hasValue: 'hasValue=?,
+      ~isMulti: 'isMulti=?,
+      ~isRtl: 'isRtl=?,
+      ~options: 'options=?,
+      ~selectOption: 'selectOption=?,
+      ~setValue: 'setValue=?,
+      ~selectProps: 'selectProps=?,
+      ~theme: 'theme=?,
+      ~minMenuHeight: 'minMenuHeight=?,
+      ~maxMenuHeight: 'maxMenuHeight=?,
+      ~menuPlacement: 'menuPlacement=?,
+      ~menuPosition: 'menuPosition=?,
+      ~menuShouldScrollIntoView: 'menuShouldScrollIntoView=?,
+      ~innerRef: 'innerRef=?,
+      ~innerProps: 'innerProps=?,
+      ~isLoading: 'isLoading=?,
+      ~placement: 'placement=?,
       ~children: React.element=?
     ) =>
     React.element =
-    "Control";
+    "Menu";
 };
 
 module DropdownIndicator = {

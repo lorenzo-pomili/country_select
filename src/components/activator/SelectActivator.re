@@ -14,8 +14,8 @@ let style =
 
 let styleIcoContainer =
   ReactDOMRe.Style.make(
-    ~paddingRight="3%",
-    ~width="17%",
+    ~paddingRight="5%",
+    ~width="15%",
     ~float="right",
     ~paddingTop="3px",
     (),
@@ -24,10 +24,10 @@ let styleIcoContainer =
 let labelContainerStyle =
   ReactDOMRe.Style.make(
     ~paddingTop="3px",
-    ~paddingLeft="3%",
+    ~paddingLeft="5%",
     ~float="left",
     ~overflow="hidden",
-    ~width="77%",
+    ~width="75%",
     ~whiteSpace="nowrap",
     ~textOverflow="ellipsis",
     ~margin="0",

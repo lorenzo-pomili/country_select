@@ -1,6 +1,6 @@
-[@bs.val] external requireCss: string => unit = "require";
-
-requireCss("node_modules/@fortawesome/fontawesome-free/css/all.min.css");
+Utils.requireCss(
+  "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+);
 
 let neutralStyle = ReactDOMRe.Style.make();
 
