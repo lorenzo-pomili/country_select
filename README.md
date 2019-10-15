@@ -3,7 +3,7 @@
 ## Run Project
 
 ```sh
-nvm use #if you have, else use node >= 11.6.0 and npm 6.0.0
+nvm use #if you have, else use node >= 11.6.0 and npm >= 6.0.0
 npm install
 npm start
 # in another tab
